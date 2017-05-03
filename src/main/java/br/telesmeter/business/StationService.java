@@ -102,4 +102,8 @@ public class StationService {
 		return valid;
 	}
 
+	public StationDao getStationDao() {
+		return stationDao;
+	}	
+	
 }

@@ -2,11 +2,15 @@ package br.telesmeter.dao;
 
 import javax.persistence.EntityManager;
 
-public class GenericDao {
+public abstract class GenericDao {
 
 	public EntityManager em;
+
+	public GenericDao(){
+		this.em = getEntityManager();
+	}
 	
-	public void insert(Object obj){
+ 	public void insert(Object obj){
 		em = getEntityManager();
 		em.getTransaction().begin();
 		em.persist(obj);

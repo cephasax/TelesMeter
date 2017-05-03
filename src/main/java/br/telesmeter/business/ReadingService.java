@@ -97,4 +97,11 @@ public class ReadingService {
 		return valid;
 	}
 
+	
+	public ReadingDao getReadingDao() {
+		return readingDao;
+	}
+
+		
+	
 }

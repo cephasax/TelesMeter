@@ -21,7 +21,7 @@ public class ReadingDao extends GenericDao {
 		// CONSTRUCAO DA CONSULTA SQL
 		String sql = " SELECT r FROM Reading r";
 		StringBuilder where = new StringBuilder();
-		where.append(" WHERE r.data = :data");
+		where.append(" WHERE r.date = :date");
 		where.append(" AND r.station.id = :idStation");
 
 		StringBuilder sqlFinal = new StringBuilder();
@@ -29,7 +29,7 @@ public class ReadingDao extends GenericDao {
 		sqlFinal.append(where.toString());
 		Query query = em.createQuery(sqlFinal.toString());
 
-		query.setParameter("data", reading.getDate());
+		query.setParameter("date", reading.getDate());
 		query.setParameter("idStation", reading.getStation().getId());
 
 		// EXECUCAO E RETORNO

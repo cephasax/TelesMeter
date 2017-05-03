@@ -17,7 +17,7 @@ public class MainTest {
 		DataBase db = DataBase.getInstance();
 		ReadingService rs = new ReadingService();
 		StationService ss = new StationService();
-	
+				
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Station s = new Station();
