@@ -11,7 +11,7 @@ public class DataBase {
 
 	private DataBase() {
 		EntityManagerFactory entityManagerFactory = Persistence
-				.createEntityManagerFactory("DataBaseConnection");
+				.createEntityManagerFactory("teste");
 		em = entityManagerFactory.createEntityManager();
 	}
 

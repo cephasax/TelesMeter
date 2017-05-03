@@ -63,5 +63,12 @@ public class Reading implements Serializable{
 	public void setStation(Station station) {
 		this.station = station;
 	}
+
+	@Override
+	public String toString() {
+		return "Reading [id=" + id + ", value=" + value + ", date=" + date + ", station=" + station + "]";
+	}
+	
+	
 	
 }

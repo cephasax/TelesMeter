@@ -13,7 +13,7 @@ public class GenericDao {
 		em.getTransaction().commit();
 	}
 	
-	public void remove(Object obj){
+	public void delete(Object obj){
 		em = getEntityManager();
 		em.getTransaction().begin();
 		em.remove(obj);
