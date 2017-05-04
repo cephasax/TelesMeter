@@ -31,7 +31,7 @@ public class Reading implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "idStation")
 	private Station station;
-
+	
 	public int getId() {
 		return id;
 	}
