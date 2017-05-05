@@ -23,7 +23,7 @@ public class MainTest {
 		Station s = new Station();
 		s.setLatitude(12145);
 		s.setLongitude(11345);
-		s.setName("1214511345");
+		s.setCodename("1214511345");
 		
 		Reading r = new Reading();
 		r.setDate(sdf.parse("10/11/2014"));

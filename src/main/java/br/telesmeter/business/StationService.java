@@ -75,7 +75,7 @@ public class StationService {
 		// Required data
 		
 		// STATION NAME
-		if (station.getName() == null) {
+		if (station.getCodename() == null) {
 			hasError = true;
 		}
 		

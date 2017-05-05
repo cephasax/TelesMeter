@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @SequenceGenerator(name = "SEQ_READING", initialValue = 1, allocationSize = 1, sequenceName = "seq_reading")
-public class Reading implements Serializable{
+public class Reading extends AbstractData implements Serializable{
 
 	private static final long serialVersionUID = 1460456542649100561L;
 

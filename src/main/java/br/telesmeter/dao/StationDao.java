@@ -28,7 +28,7 @@ public class StationDao extends GenericDao {
 		sqlFinal.append(where.toString());
 		Query query = em.createQuery(sqlFinal.toString());
 
-		query.setParameter("name", station.getName());
+		query.setParameter("name", station.getCodename());
 
 		// EXECUCAO E RETORNO
 		return (ArrayList<Station>) query.getResultList();
