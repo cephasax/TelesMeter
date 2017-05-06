@@ -1,6 +1,5 @@
 package br.telesmeter.sheetwork;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -13,7 +12,8 @@ import br.telesmeter.domain.Station;
 
 public class StationDataCapture extends DataCapture {
 
-	public StationDataCapture() {
+	public StationDataCapture(String source) {
+		this.FILES_SOURCE = new String(source);
 		this.dataFromSheet = new ArrayList<AbstractData>();
 	}
 
@@ -60,8 +60,8 @@ public class StationDataCapture extends DataCapture {
 		}
 	}
 
-	private void setCorrectVAlueFromCell(Station station, int i, String cellData) {
-		Double d = new Double(0.0);
+	/*private void setCorrectVAlueFromCell(Station station, int i, String cellData) {
+		Double d;
 		try {
 			// if column 0 - codeName
 			if (i == 0) {
@@ -82,11 +82,19 @@ public class StationDataCapture extends DataCapture {
 				d = new Double(parseDecimal(cellData));
 				station.setAltitude(d);
 			}
-			// if column 4 - latitude
+			
+			----------------------
+			
+			
+			if column 4 - latitude
 			else if (i == 4) {
 				d = new Double(parseDecimal(cellData));
 				station.setLatitude(d);
 			}
+			
+			-------------------
+			
+			
 			// if column 5 - cityName
 			else if (i == 5) {
 				station.setCityName(cellData);
@@ -110,6 +118,12 @@ public class StationDataCapture extends DataCapture {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}*/
+	
+	private void setCorrectVAlueFromCell(Station station, int i, String cellData) {
+		System.out.println("coluna: " + i);
+		System.out.println("Dado: " + cellData);
+		System.out.println();
 	}
 
 }

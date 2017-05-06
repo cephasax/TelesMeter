@@ -31,7 +31,7 @@ public abstract class GenericDao {
 		em.getTransaction().commit();
 	}
 	
-	public Object findById(Class<?> cls , long id){
+	public Object findById(Class<?> cls , Integer id){
 		em = getEntityManager();
 		return em.find(cls, id);
 	}

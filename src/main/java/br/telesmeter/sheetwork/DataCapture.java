@@ -19,7 +19,7 @@ import br.telesmeter.domain.AbstractData;
 public abstract class DataCapture {
 
 	private ArrayList<String> files;
-	private String FILES_SOURCE;
+	protected String FILES_SOURCE;
 	private StringBuilder stringBuilder;
 	private Workbook workBook;
 	protected ArrayList<AbstractData> dataFromSheet;

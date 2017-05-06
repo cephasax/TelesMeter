@@ -1,24 +1,23 @@
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import br.telesmeter.business.ReadingService;
 import br.telesmeter.business.StationService;
 import br.telesmeter.dao.DataBase;
-import br.telesmeter.domain.Reading;
-import br.telesmeter.domain.Station;
 import br.telesmeter.exceptions.DataAlreadyExistsException;
 import br.telesmeter.exceptions.DataNotFoundException;
 import br.telesmeter.exceptions.IncompleteDataException;
+import br.telesmeter.sheetwork.StationDataCapture;
 
 public class MainTest {
 
 	public static void main(String[] args) throws ParseException, DataAlreadyExistsException, IncompleteDataException, DataNotFoundException {
 		
-		DataBase db = DataBase.getInstance();
-		ReadingService rs = new ReadingService();
-		StationService ss = new StationService();
-				
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		String source = new String(	"src/main/resources/data/stations/");
+									
+		StationDataCapture sdc = new StationDataCapture(source);
+		sdc.CaptureDataFromSheet();
+		/*SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Station s = new Station();
 		s.setLatitude(12145);
@@ -31,9 +30,8 @@ public class MainTest {
 		r.setStation(s);
 		
 		ss.insert(s);
-		rs.insert(r);
-		
-		System.out.println(rs.find(1).toString());
+		rs.insert(r);*/
+	
 	}
 
 }
