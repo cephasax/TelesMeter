@@ -30,11 +30,6 @@ public abstract class GenericDao {
 		em.merge(obj);
 		em.getTransaction().commit();
 	}
-	
-	public Object findById(Class<?> cls , Integer id){
-		em = getEntityManager();
-		return em.find(cls, id);
-	}
 
 	private EntityManager getEntityManager(){
 		return DataBase.getInstance().getEntityManager();

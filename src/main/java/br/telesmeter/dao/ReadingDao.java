@@ -9,6 +9,23 @@ import br.telesmeter.domain.Reading;
 
 public class ReadingDao extends GenericDao {
 
+	public Reading findById(int id) {
+		// CONSTRUCAO DA CONSULTA SQL
+		String sql = " SELECT r FROM Reading r";
+		StringBuilder where = new StringBuilder();
+		where.append(" WHERE r.id = :id");
+
+		StringBuilder sqlFinal = new StringBuilder();
+		sqlFinal.append(sql);
+		sqlFinal.append(where.toString());
+		Query query = em.createQuery(sqlFinal.toString());
+
+		query.setParameter("id", id);
+
+		// EXECUCAO E RETORNO
+		return (Reading)query.getSingleResult();
+	}
+
 	public ArrayList<Reading> list() {
 		Query query = em.createQuery("SELECT r FROM Reading r");
 		List<Reading> results = new ArrayList<Reading>();

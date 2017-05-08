@@ -48,7 +48,7 @@ public class StationService {
 	public Station find(int entityId) throws DataNotFoundException {
 		Station station = new Station();
 		if (validateId(entityId)) {
-			station = (Station)stationDao.findById(Station.class, entityId);
+			station = stationDao.findById(entityId);
 		} 
 		if (station == null) {
 			throw new DataNotFoundException("ERROR - FIND: Station does not exist on database");
@@ -58,6 +58,17 @@ public class StationService {
 		}
 	}
 
+	public Station findByCodename(String codename) throws DataNotFoundException {
+		Station station = new Station();
+		station = stationDao.findByCodename(codename);
+		if (station == null) {
+			throw new DataNotFoundException("ERROR - FIND: Station does not exist on database");
+		} 
+		else {
+			return station;
+		}
+	}
+	
 	public List<Station> list() throws DataNotFoundException {
 		ArrayList<Station> stations = new ArrayList<Station>();
 		stations = stationDao.list();

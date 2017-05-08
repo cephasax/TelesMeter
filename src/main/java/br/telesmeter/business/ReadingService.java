@@ -48,7 +48,7 @@ public class ReadingService {
 	public Reading find(int entityId) throws DataNotFoundException {
 		Reading reading = new Reading();
 		if (validateId(entityId)) {
-			reading = (Reading)readingDao.findById(Reading.class, entityId);
+			reading = readingDao.findById(entityId);
 		} 
 		if (reading == null) {
 			throw new DataNotFoundException("ERROR - FIND: Reading does not exist on database");
