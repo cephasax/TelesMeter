@@ -1,8 +1,8 @@
 package br.telesmeter.sheetwork;
 
-import java.text.DateFormat;
+//import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -43,7 +43,7 @@ public class ReadingDataCapture extends DataCapture {
 		
 		DataFormatter sheetDataFormatter = new DataFormatter();
 		Double d = new Double(0.0);
-		DateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
+		//DateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		StationService stationService = new StationService();
 		
@@ -59,6 +59,9 @@ public class ReadingDataCapture extends DataCapture {
 
 						// if first row
 						if (cell.getRowIndex() == 0) {
+							if (cell.getColumnIndex() == 0) {
+								continue;
+							}
 							//add cellData to columns header names
 							columnsNames.add(cellData);
 							Station s = new Station();
@@ -73,13 +76,7 @@ public class ReadingDataCapture extends DataCapture {
 
 							// if first column
 							if (cell.getColumnIndex() == 0) {
-								try{
-									//parse cellData to Date Class
-									date = dateFormater.parse(cellData);
-								}
-								catch(ParseException e){
-									e.printStackTrace();
-								}
+								date = cell.getDateCellValue();
 							} 
 							
 							//if cell with precipitation data
@@ -96,7 +93,7 @@ public class ReadingDataCapture extends DataCapture {
 								Reading reading = new Reading();
 								reading.setDate(date);
 								reading.setValue(d);
-								reading.setStation(stations.get(cell.getColumnIndex()));
+								reading.setStation(stations.get(cell.getColumnIndex()-1));
 								sheetData.add(reading);
 							}
 						}
