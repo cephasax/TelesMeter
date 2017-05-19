@@ -1,12 +1,13 @@
 package br.telesmeter.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
 
+import br.telesmeter.domain.Reading;
 import br.telesmeter.domain.SheetLog;
-import br.telesmeter.domain.Station;
 
 public class SheetLogDao extends GenericDao {
 	
@@ -52,11 +53,16 @@ public class SheetLogDao extends GenericDao {
 		return (ArrayList<SheetLog>) results;
 	}
 	
-	public SheetLog findSheetLogForCheck( SheetLog sheetLog ){
+	public ArrayList<SheetLog> findSheetLogForCheck( SheetLog sheetLog ){
 		// CONSTRUCAO DA CONSULTA SQL
 		String sql = " SELECT s FROM SheetLog s";
 		StringBuilder where = new StringBuilder();
 		where.append(" WHERE s.filename LIKE ':filename'");
+		where.append(" AND s.id = :id");
+		where.append(" AND s.date = :date");
+		where.append(" AND s.columnsNames LIKE ':columnsNames'");
+		where.append(" AND s.timeToInsertInMinutes = :timeToInsertInMinutes");
+		where.append(" AND s.entityType LIKE ':entityType'");
 
 		StringBuilder sqlFinal = new StringBuilder();
 		sqlFinal.append(sql);
@@ -64,9 +70,21 @@ public class SheetLogDao extends GenericDao {
 		Query query = em.createQuery(sqlFinal.toString());
 
 		query.setParameter("filename", sheetLog.getFileName() );
+		query.setParameter("id", sheetLog.getId() );
+		query.setParameter("date", sheetLog.getDate() );
+		query.setParameter("columnsNames", sheetLog.getColumnsNames() );
+		query.setParameter("timeToInsertInMinutes", sheetLog.getTimeToInsertInMinutes() );
+		query.setParameter("entityType", sheetLog.getEntityType() );
 
 		// EXECUCAO E RETORNO
-		return (SheetLog)query.getSingleResult();
+		return (ArrayList<SheetLog>) query.getResultList();
 	}
-
+	
+	/*
+	private String fileName;
+	private Date date;
+	private String columnsNames;
+	private double timeToInsertInMinutes;
+	private String entityType;
+	*/
 }

@@ -15,7 +15,7 @@ public class SheetLog {
 	private int Id;
 
 	private String fileName;
-	private Date data;
+	private Date date;
 	private String columnsNames;
 	private double timeToInsertInMinutes;
 	private String entityType;
@@ -36,12 +36,12 @@ public class SheetLog {
 		this.fileName = fileName;
 	}
 
-	public Date getData() {
-		return data;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setData(Date date) {
+		this.date = date;
 	}
 
 	public String getColumnsNames() {
