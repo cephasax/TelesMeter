@@ -11,8 +11,7 @@ import javax.persistence.SequenceGenerator;
 public class SheetLog {
 
 	@Id
-	// GeneratedValue(strategy = GenerationType.SEQUENCE, generator =
-	// "SEQ_SHEET_LOG")
+	// GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SHEET_LOG")
 	private int Id;
 
 	private String fileName;
