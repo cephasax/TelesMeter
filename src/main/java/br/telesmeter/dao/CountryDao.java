@@ -51,7 +51,7 @@ public class CountryDao extends GenericDao {
 		return (ArrayList<Country>) results;
 	}
 
-	public ArrayList<Country> findStationForCheck(Country country) {
+	public ArrayList<Country> findCountryForCheck(Country country) {
 
 		// CONSTRUCAO DA CONSULTA SQL
 		String sql = "SELECT c FROM Country c";

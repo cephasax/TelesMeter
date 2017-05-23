@@ -51,7 +51,7 @@ public class StateDao extends GenericDao{
 		return (ArrayList<State>) results;
 	}
 
-	public ArrayList<State> findStationForCheck(State state) {
+	public ArrayList<State> findStateForCheck(State state) {
 
 		// CONSTRUCAO DA CONSULTA SQL
 		String sql = "SELECT s FROM State s";

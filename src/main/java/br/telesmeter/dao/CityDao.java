@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Query;
 
 import br.telesmeter.domain.City;
-import br.telesmeter.domain.State;
 
 public class CityDao extends GenericDao{
 	
@@ -52,7 +51,7 @@ public class CityDao extends GenericDao{
 		return (ArrayList<City>) results;
 	}
 
-	public ArrayList<City> findStationForCheck(City city) {
+	public ArrayList<City> findCityForCheck(City city) {
 
 		// CONSTRUCAO DA CONSULTA SQL
 		String sql = "SELECT c FROM City c";
