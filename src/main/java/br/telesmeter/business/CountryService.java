@@ -20,7 +20,7 @@ private CountryDao countryDao = new CountryDao();
 			countryDao.insert(country);
 		} 
 		else {
-			throw new DataAlreadyExistsException("ERROR - INSERT: Reading already exists on database");
+			throw new DataAlreadyExistsException("ERROR - INSERT: Country already exists on database");
 		}
 	}
 	
@@ -31,7 +31,7 @@ private CountryDao countryDao = new CountryDao();
 			return country;
 		}
 		else{
-			throw new IncompleteDataException("ERROR - UPDATE: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR - UPDATE: Cannot work with incomplete country");
 		}
 	}
 
@@ -41,7 +41,7 @@ private CountryDao countryDao = new CountryDao();
 			countryDao.delete(country);
 		}
 		else{
-			throw new IncompleteDataException("ERROR - DELETE: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR - DELETE: Cannot work with incomplete country");
 		}
 	}
 
@@ -51,7 +51,7 @@ private CountryDao countryDao = new CountryDao();
 			country = countryDao.findById(entityId);
 		} 
 		if (country == null) {
-			throw new DataNotFoundException("ERROR - FIND: Reading does not exist on database");
+			throw new DataNotFoundException("ERROR - FIND: Country does not exist on database");
 		} 
 		else {
 			return country;
@@ -65,7 +65,7 @@ private CountryDao countryDao = new CountryDao();
 			return countrys;
 		} 
 		else {
-			throw new DataNotFoundException("ERROR - LIST: Readings table are empty");
+			throw new DataNotFoundException("ERROR - LIST: Country table are empty");
 		}
 	}
 
@@ -74,7 +74,7 @@ private CountryDao countryDao = new CountryDao();
 
 		// COUNTRY NAME
 		if (country.getName() == null) {
-			throw new IncompleteDataException("ERROR: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR: Cannot work with incomplete country");
 		}
 	}
 

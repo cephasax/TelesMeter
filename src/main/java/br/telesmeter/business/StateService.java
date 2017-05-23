@@ -20,7 +20,7 @@ public class StateService {
 			stateDao.insert(state);
 		} 
 		else {
-			throw new DataAlreadyExistsException("ERROR - INSERT: Reading already exists on database");
+			throw new DataAlreadyExistsException("ERROR - INSERT: State already exists on database");
 		}
 	}
 	
@@ -31,7 +31,7 @@ public class StateService {
 			return state;
 		}
 		else{
-			throw new IncompleteDataException("ERROR - UPDATE: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR - UPDATE: Cannot work with incomplete state");
 		}
 	}
 
@@ -41,7 +41,7 @@ public class StateService {
 			stateDao.delete(state);
 		}
 		else{
-			throw new IncompleteDataException("ERROR - DELETE: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR - DELETE: Cannot work with incomplete State");
 		}
 	}
 
@@ -51,7 +51,7 @@ public class StateService {
 			state = stateDao.findById(entityId);
 		} 
 		if (state == null) {
-			throw new DataNotFoundException("ERROR - FIND: Reading does not exist on database");
+			throw new DataNotFoundException("ERROR - FIND: State does not exist on database");
 		} 
 		else {
 			return state;
@@ -65,7 +65,7 @@ public class StateService {
 			return states;
 		} 
 		else {
-			throw new DataNotFoundException("ERROR - LIST: Readings table are empty");
+			throw new DataNotFoundException("ERROR - LIST: State table are empty");
 		}
 	}
 
@@ -84,7 +84,7 @@ public class StateService {
 		}
 		
 		if ( hasError ) {
-			throw new IncompleteDataException("ERROR: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR: Cannot work with incomplete state");
 		}
 		
 		

@@ -19,7 +19,7 @@ private CityDao cityDao = new CityDao();
 			cityDao.insert(city);
 		} 
 		else {
-			throw new DataAlreadyExistsException("ERROR - INSERT: Reading already exists on database");
+			throw new DataAlreadyExistsException("ERROR - INSERT: City already exists on database");
 		}
 	}
 	
@@ -30,7 +30,7 @@ private CityDao cityDao = new CityDao();
 			return city;
 		}
 		else{
-			throw new IncompleteDataException("ERROR - UPDATE: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR - UPDATE: Cannot work with incomplete city");
 		}
 	}
 
@@ -40,7 +40,7 @@ private CityDao cityDao = new CityDao();
 			cityDao.delete(city);
 		}
 		else{
-			throw new IncompleteDataException("ERROR - DELETE: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR - DELETE: Cannot work with incomplete city");
 		}
 	}
 
@@ -50,7 +50,7 @@ private CityDao cityDao = new CityDao();
 			city = cityDao.findById(entityId);
 		} 
 		if (city == null) {
-			throw new DataNotFoundException("ERROR - FIND: Reading does not exist on database");
+			throw new DataNotFoundException("ERROR - FIND: city does not exist on database");
 		} 
 		else {
 			return city;
@@ -64,7 +64,7 @@ private CityDao cityDao = new CityDao();
 			return citys;
 		} 
 		else {
-			throw new DataNotFoundException("ERROR - LIST: Readings table are empty");
+			throw new DataNotFoundException("ERROR - LIST: city table are empty");
 		}
 	}
 
@@ -83,7 +83,7 @@ private CityDao cityDao = new CityDao();
 		}
 		
 		if ( hasError ) {
-			throw new IncompleteDataException("ERROR: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR: Cannot work with incomplete city");
 		}
 		
 		

@@ -20,7 +20,7 @@ public class SheetLogService {
 			sheetLogDao.insert(sheetLog);
 		} 
 		else {
-			throw new DataAlreadyExistsException("ERROR - INSERT: Reading already exists on database");
+			throw new DataAlreadyExistsException("ERROR - INSERT: SheetLog already exists on database");
 		}
 	}
 	
@@ -31,7 +31,7 @@ public class SheetLogService {
 			return sheetLog;
 		}
 		else{
-			throw new IncompleteDataException("ERROR - UPDATE: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR - UPDATE: Cannot work with incomplete sheetLog");
 		}
 	}
 
@@ -41,7 +41,7 @@ public class SheetLogService {
 			sheetLogDao.delete(sheetLog);
 		}
 		else{
-			throw new IncompleteDataException("ERROR - DELETE: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR - DELETE: Cannot work with incomplete SheetLog");
 		}
 	}
 
@@ -51,7 +51,7 @@ public class SheetLogService {
 			sheetLog = sheetLogDao.findById(entityId);
 		} 
 		if (sheetLog == null) {
-			throw new DataNotFoundException("ERROR - FIND: Reading does not exist on database");
+			throw new DataNotFoundException("ERROR - FIND: SheetLog does not exist on database");
 		} 
 		else {
 			return sheetLog;
@@ -65,7 +65,7 @@ public class SheetLogService {
 			return logs;
 		} 
 		else {
-			throw new DataNotFoundException("ERROR - LIST: Readings table are empty");
+			throw new DataNotFoundException("ERROR - LIST: SheetLog table are empty");
 		}
 	}
 
@@ -100,7 +100,7 @@ public class SheetLogService {
 		}
 		
 		if (hasError) {
-			throw new IncompleteDataException("ERROR: Cannot work with incomplete reading");
+			throw new IncompleteDataException("ERROR: Cannot work with incomplete sheetLog");
 		}
 	}
 
