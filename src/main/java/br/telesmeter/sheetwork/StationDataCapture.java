@@ -6,7 +6,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import br.telesmeter.business.StationService;
-import br.telesmeter.domain.AbstractData;
+//import br.telesmeter.domain.AbstractData;
 import br.telesmeter.domain.Station;
 import br.telesmeter.exceptions.DataAlreadyExistsException;
 import br.telesmeter.exceptions.IncompleteDataException;
@@ -14,7 +14,8 @@ import br.telesmeter.utils.SheetUtils;
 
 public class StationDataCapture extends DataCapture {
 
-	public StationDataCapture(String source) {
+	public StationDataCapture(String source, Buffer bf, char t) {
+		super(bf, t);
 		this.FILES_SOURCE = new String(source);
 	}
 
@@ -30,6 +31,7 @@ public class StationDataCapture extends DataCapture {
 
 		DataFormatter sheetDataFormatter = new DataFormatter();
 
+		int numReadStations = 0;
 		while (trigger == 0) {
 			for (Row row : dataSheet) {
 
@@ -56,8 +58,16 @@ public class StationDataCapture extends DataCapture {
 					}
 				}
 				sheetData.add(station);
+				if(++numReadStations>=50){
+					buffer.push(sheetData);
+					sheetData.clear();
+					numReadStations = 0;
+				}
 			}
 		}
+		buffer.push(sheetData);
+		sheetData.clear();
+		buffer.setClosed(true);
 	}
 
 	private void setStationAttribute(Station station, int i, String cellData) {
@@ -116,8 +126,8 @@ public class StationDataCapture extends DataCapture {
 
 	private void savaStationsOnDataBase(){
 		StationService ss = new StationService();
-		for(AbstractData ad: sheetData){
-			Station s = (Station)ad;
+		while( !(buffer.isClosed() && buffer.isEmpty())){
+			Station s = (Station)buffer.pull();
 			try {
 				ss.insert(s);
 			} catch (DataAlreadyExistsException e) {

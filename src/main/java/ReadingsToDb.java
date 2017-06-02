@@ -4,9 +4,9 @@ import java.text.ParseException;
 import br.telesmeter.exceptions.DataAlreadyExistsException;
 import br.telesmeter.exceptions.DataNotFoundException;
 import br.telesmeter.exceptions.IncompleteDataException;
-import br.telesmeter.sheetwork.DataCapture;
+import br.telesmeter.sheetwork.Buffer;
 import br.telesmeter.sheetwork.ReadingDataCapture;
-import br.telesmeter.utils.JobDoneToFileReport;
+//import br.telesmeter.utils.JobDoneToFileReport;
 
 
 /**
@@ -21,15 +21,25 @@ public class ReadingsToDb {
 
 	public static void main(String[] args) throws ParseException, DataAlreadyExistsException, IncompleteDataException, DataNotFoundException, IOException {
 		
+		long begin = System.currentTimeMillis();
 		String source = new String(	"src/main/resources/data/readings/");
-									
-		DataCapture rdc = new ReadingDataCapture(source);
+		Buffer bf = new Buffer(100);
+		Thread rdcP = new ReadingDataCapture(source, bf, 'p');
+		Thread rdcC = new ReadingDataCapture(source, bf, 'c');
 		
-		rdc.readDataFromFiles();
-		rdc.work();
+		rdcP.start();
+		rdcC.start();
 		
-		JobDoneToFileReport.doResumeFromWork(rdc.getSheetData(), "reading");
-	
+		try {
+			rdcP.join();
+			rdcC.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		//JobDoneToFileReport.doResumeFromWork(rdc.getSheetData(), "reading");
+		long end = System.currentTimeMillis();
+		System.out.println("Time to insert all readings (seconds): "+ (double)(end-begin)/1000.0);
 	}
 
 }

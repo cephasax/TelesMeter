@@ -13,7 +13,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import br.telesmeter.business.ReadingService;
 import br.telesmeter.business.StationService;
-import br.telesmeter.domain.AbstractData;
+//import br.telesmeter.domain.AbstractData;
 import br.telesmeter.domain.Reading;
 import br.telesmeter.domain.Station;
 import br.telesmeter.exceptions.DataAlreadyExistsException;
@@ -26,7 +26,8 @@ public class ReadingDataCapture extends DataCapture {
 
 	private ArrayList<Station> stations = new ArrayList<Station>(); 
 	
-	public ReadingDataCapture(String source) {
+	public ReadingDataCapture(String source, Buffer bf, char t) {
+		super(bf, t);
 		this.FILES_SOURCE = new String(source);
 	}
 	
@@ -46,7 +47,7 @@ public class ReadingDataCapture extends DataCapture {
 		//DateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
 		StationService stationService = new StationService();
-		
+		int numReadMeasures=0;
 		while (trigger == 0) {
 			for (Row row : dataSheet) {
 				for (Cell cell : row) {
@@ -95,6 +96,11 @@ public class ReadingDataCapture extends DataCapture {
 								reading.setValue(d);
 								reading.setStation(stations.get(cell.getColumnIndex()-1));
 								sheetData.add(reading);
+								if(++numReadMeasures>=50){
+									buffer.push(sheetData);
+									sheetData.clear();
+									numReadMeasures=0;
+								}
 							}
 						}
 					} else {
@@ -103,13 +109,16 @@ public class ReadingDataCapture extends DataCapture {
 				}
 			}
 		}
+		buffer.push(sheetData);
+		sheetData.clear();
+		buffer.setClosed(true);
 	}
 
 	private void savaReadingsOnDataBase(){
 		ReadingService readingService = new ReadingService();
 		
-		for(AbstractData ad: sheetData){
-			Reading r = (Reading)ad;
+		while(!(buffer.isClosed() && buffer.isEmpty())){
+			Reading r = (Reading)buffer.pull();
 			try {
 				readingService.insert(r);
 			} catch (DataAlreadyExistsException e) {

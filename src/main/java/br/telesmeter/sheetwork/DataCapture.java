@@ -13,7 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import br.telesmeter.domain.AbstractData;
 
-public abstract class DataCapture {
+public abstract class DataCapture extends Thread{
 
 	private ArrayList<String> files;
 	protected String FILES_SOURCE;
@@ -21,7 +21,30 @@ public abstract class DataCapture {
 	private Workbook workBook;
 	protected ArrayList<AbstractData> sheetData;
 	protected ArrayList<String> columnsNames;
+	protected Buffer buffer;
+	protected char type;
 
+	@Override
+	public void run(){
+		if(type=='c'){
+			try {
+				readDataFromFiles();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			return;
+		}
+		if(type=='p'){
+			work();
+		}
+		return;
+	}
+	
+	protected DataCapture(Buffer bf, char t){
+		buffer = bf;
+		type = t;
+	}
+	
 	public abstract void work();
 
 	public abstract void readDataFromSheet(Sheet dataSheet);
