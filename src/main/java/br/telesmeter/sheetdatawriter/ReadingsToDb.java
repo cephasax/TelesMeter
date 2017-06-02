@@ -1,12 +1,10 @@
+package br.telesmeter.sheetdatawriter;
 import java.io.IOException;
 import java.text.ParseException;
 
 import br.telesmeter.exceptions.DataAlreadyExistsException;
 import br.telesmeter.exceptions.DataNotFoundException;
 import br.telesmeter.exceptions.IncompleteDataException;
-import br.telesmeter.sheetwork.DataCapture;
-import br.telesmeter.sheetwork.ReadingDataCapture;
-import br.telesmeter.utils.JobDoneToFileReport;
 
 
 /**
@@ -23,12 +21,13 @@ public class ReadingsToDb {
 		
 		String source = new String(	"src/main/resources/data/readings/");
 									
-		DataCapture rdc = new ReadingDataCapture(source);
+		DataCapture rdc = new Teste(source);
 		
 		rdc.readDataFromFiles();
-		rdc.work();
+		System.out.println(rdc.getSheetData().size());
+		//rdc.work();
 		
-		JobDoneToFileReport.doResumeFromWork(rdc.getSheetData(), "reading");
+		//JobDoneToFileReport.doResumeFromWork(rdc.getSheetData(), "reading");
 	
 	}
 
