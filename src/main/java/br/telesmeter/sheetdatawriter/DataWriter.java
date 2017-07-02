@@ -8,4 +8,5 @@ public interface DataWriter {
 	
 	public void writeDataFromSheet(ArrayList<AbstractData> data);
 	
+	public void writeDataFromSheet(AbstractData data);
 }
