@@ -21,8 +21,8 @@ public class StationDataCapture extends DataCapture {
 		ArrayList<AbstractData> data = new ArrayList<AbstractData>();
 		
 		int limit = startFromRow + numberOfRowsToRead;
-		
-		for(int i = startFromRow; i < limit; i++){
+		int i = startFromRow>0 ? startFromRow : 1;
+		for( ; i < limit; i++){
 			
 			Station station = new Station();
 			for(Cell cell: sheet.getRow(i)){

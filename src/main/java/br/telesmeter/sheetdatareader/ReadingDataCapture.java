@@ -39,20 +39,22 @@ public class ReadingDataCapture extends DataCapture {
 				
 				String cellData = new String(sheetDataFormatter.formatCellValue(cell));
 				
-				//if first row and second column or later
-				if(i == 0 && cell.getColumnIndex() > 0){
-					
-					// get respective Station on database
-					//put station on local collection to future Reading attribution 
-					Station s = new Station();
-					
-					try {
-						s = stationService.findByCodename(cellData);
-						stations.add(s);
-					} catch (DataNotFoundException e) {
-						e.printStackTrace();
-						s = null;
-						stations.add(s);
+				//if first row
+				if(i == 0 ){
+					//if second column or later
+					if(cell.getColumnIndex() > 0){
+						// get respective Station on database
+						//put station on local collection to future Reading attribution 
+						Station s = new Station();
+						
+						try {
+							s = stationService.findByCodename(cellData);
+							stations.add(s);
+						} catch (DataNotFoundException e) {
+							e.printStackTrace();
+							s = null;
+							stations.add(s);
+						}
 					}
 				}
 				

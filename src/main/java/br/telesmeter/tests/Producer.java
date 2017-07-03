@@ -25,7 +25,7 @@ public class Producer extends Thread{
 		int step = 100;
 		ArrayList<AbstractData> list;
 		
-		for( int begin=1 ; begin<limit ; begin+=step ){
+		for( int begin=0 ; begin<limit ; begin+=step ){
 			
 			step = (begin+step)<limit ? step : (limit-begin);
 			list = dataCapture.readDataFromSheet(sheet, begin, step);

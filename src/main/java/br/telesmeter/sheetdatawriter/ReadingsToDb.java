@@ -1,9 +1,10 @@
 package br.telesmeter.sheetdatawriter;
-import java.io.IOException;
-import java.text.ParseException;
+import java.util.ArrayList;
 
+import br.telesmeter.business.ReadingService;
+import br.telesmeter.domain.AbstractData;
+import br.telesmeter.domain.Reading;
 import br.telesmeter.exceptions.DataAlreadyExistsException;
-import br.telesmeter.exceptions.DataNotFoundException;
 import br.telesmeter.exceptions.IncompleteDataException;
 
 
@@ -15,20 +16,34 @@ import br.telesmeter.exceptions.IncompleteDataException;
  *put these information on DataBase. 
  *
  */
-public class ReadingsToDb {
-
-	public static void main(String[] args) throws ParseException, DataAlreadyExistsException, IncompleteDataException, DataNotFoundException, IOException {
-		
-		String source = new String(	"src/main/resources/data/readings/");
-									
-		DataCapture rdc = new Teste(source);
-		
-		rdc.readDataFromFiles();
-		System.out.println(rdc.getSheetData().size());
-		//rdc.work();
-		
-		//JobDoneToFileReport.doResumeFromWork(rdc.getSheetData(), "reading");
+public class ReadingsToDb implements DataWriter{
+	ReadingService rs;
 	
+	public ReadingsToDb(){ 
+		rs = new ReadingService();
 	}
+	
+	public void writeDataFromSheet(ArrayList<AbstractData> list) {
+		for(AbstractData d : list){
+			try {
+				rs.insert( ((Reading)d) );
+			} catch (DataAlreadyExistsException e) {
+				e.printStackTrace();
+			} catch (IncompleteDataException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void writeDataFromSheet(AbstractData data) {
+		try {
+			rs.insert( ((Reading)data) );
+		} catch (DataAlreadyExistsException e) {
+			e.printStackTrace();
+		} catch (IncompleteDataException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 }
