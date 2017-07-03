@@ -26,6 +26,7 @@ public class ReadingDao extends GenericDao {
 		return (Reading)query.getSingleResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Reading> list() {
 		Query query = em.createQuery("SELECT r FROM Reading r");
 		List<Reading> results = new ArrayList<Reading>();
@@ -33,6 +34,7 @@ public class ReadingDao extends GenericDao {
 		return (ArrayList<Reading>) results;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Reading> findReadingForCheck(Reading reading) {
 
 		// CONSTRUCAO DA CONSULTA SQL

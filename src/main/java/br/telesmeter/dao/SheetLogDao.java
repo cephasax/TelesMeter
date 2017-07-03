@@ -1,12 +1,10 @@
 package br.telesmeter.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
 
-import br.telesmeter.domain.Reading;
 import br.telesmeter.domain.SheetLog;
 
 public class SheetLogDao extends GenericDao {
@@ -46,6 +44,7 @@ public class SheetLogDao extends GenericDao {
 		return (SheetLog)query.getSingleResult();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<SheetLog> list(){
 		Query query = em.createQuery("SELECT s FROM SheetLog s");
 		List<SheetLog> results = new ArrayList<SheetLog>();
@@ -53,6 +52,7 @@ public class SheetLogDao extends GenericDao {
 		return (ArrayList<SheetLog>) results;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<SheetLog> findSheetLogForCheck( SheetLog sheetLog ){
 		// CONSTRUCAO DA CONSULTA SQL
 		String sql = " SELECT s FROM SheetLog s";

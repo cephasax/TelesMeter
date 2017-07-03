@@ -44,6 +44,7 @@ public class StateDao extends GenericDao{
 		return (State)query.getSingleResult();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<State> list() {
 		Query query = em.createQuery("SELECT s FROM State s");
 		List<State> results = new ArrayList<State>();
@@ -51,6 +52,7 @@ public class StateDao extends GenericDao{
 		return (ArrayList<State>) results;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<State> findStateForCheck(State state) {
 
 		// CONSTRUCAO DA CONSULTA SQL

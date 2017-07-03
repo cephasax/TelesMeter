@@ -44,6 +44,7 @@ public class StationDao extends GenericDao {
 		return (Station)query.getSingleResult();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Station> list() {
 		Query query = em.createQuery("SELECT s FROM Station s");
 		List<Station> results = new ArrayList<Station>();
@@ -51,6 +52,7 @@ public class StationDao extends GenericDao {
 		return (ArrayList<Station>) results;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Station> findStationForCheck(Station station) {
 
 		// CONSTRUCAO DA CONSULTA SQL

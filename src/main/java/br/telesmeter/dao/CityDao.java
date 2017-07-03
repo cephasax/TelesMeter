@@ -44,13 +44,15 @@ public class CityDao extends GenericDao{
 		return (City)query.getSingleResult();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<City> list() {
 		Query query = em.createQuery("SELECT c FROM City c");
 		List<City> results = new ArrayList<City>();
-		results = query.getResultList();
+		results = (List<City>)query.getResultList();
 		return (ArrayList<City>) results;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<City> findCityForCheck(City city) {
 
 		// CONSTRUCAO DA CONSULTA SQL

@@ -44,6 +44,7 @@ public class CountryDao extends GenericDao {
 		return (Country)query.getSingleResult();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Country> list() {
 		Query query = em.createQuery("SELECT c FROM Country c");
 		List<Country> results = new ArrayList<Country>();
@@ -51,6 +52,7 @@ public class CountryDao extends GenericDao {
 		return (ArrayList<Country>) results;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Country> findCountryForCheck(Country country) {
 
 		// CONSTRUCAO DA CONSULTA SQL
