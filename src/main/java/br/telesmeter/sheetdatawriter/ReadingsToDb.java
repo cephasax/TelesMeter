@@ -27,9 +27,7 @@ public class ReadingsToDb implements DataWriter{
 		for(AbstractData d : list){
 			try {
 				rs.insert( ((Reading)d) );
-			} catch (DataAlreadyExistsException e) {
-				e.printStackTrace();
-			} catch (IncompleteDataException e) {
+			}  catch (IncompleteDataException e) {
 				e.printStackTrace();
 			}
 		}
@@ -38,8 +36,6 @@ public class ReadingsToDb implements DataWriter{
 	public void writeDataFromSheet(AbstractData data) {
 		try {
 			rs.insert( ((Reading)data) );
-		} catch (DataAlreadyExistsException e) {
-			e.printStackTrace();
 		} catch (IncompleteDataException e) {
 			e.printStackTrace();
 		}
