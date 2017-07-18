@@ -5,7 +5,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class FixedBuffer<T> {
+public class Buffer<T> {
 	private int maxSize;
 	private boolean closed;
 	private Lock lock;
@@ -13,7 +13,7 @@ public class FixedBuffer<T> {
 	private Condition notEmpty;
 	private LinkedList<T> list;
 	
-	public FixedBuffer(int maxSize){
+	public Buffer(int maxSize){
 		closed = false;
 		this.maxSize = maxSize;
 		lock = new ReentrantLock();
@@ -29,11 +29,9 @@ public class FixedBuffer<T> {
 				notEmpty.await();
 			}
 			T temp = list.removeLast();
-			for(int x=0 ; x<list.size() ; x++){
-				System.out.print(".");
+			if(list.size()<=maxSize/2){
+				notFull.signal();
 			}
-			System.out.println("(" + (list.size()) + ")");
-			notFull.signal();
 			return temp;
 		}
 		finally{
@@ -48,10 +46,6 @@ public class FixedBuffer<T> {
 				notFull.await();
 			}
 			list.add(t);
-			for(int x=0 ; x<list.size() ; x++){
-				System.out.print(".");
-			}
-			System.out.println("(" + (list.size()) + ")");
 			notEmpty.signal();
 			return;
 		}
