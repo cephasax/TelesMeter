@@ -13,15 +13,9 @@ public class ReadingService {
 
 	ReadingDao readingDao = new ReadingDao();
 
-	public void insert(Reading reading) throws DataAlreadyExistsException, IncompleteDataException {
+	public void insert(Reading reading) throws IncompleteDataException{
 		verifyReading(reading);
-		ArrayList<Reading> readings = readingDao.findReadingForCheck(reading);
-		if (readings.size() == 0) {
-			readingDao.insert(reading);
-		} 
-		else {
-			throw new DataAlreadyExistsException("ERROR - INSERT: Reading already exists on database");
-		}
+		readingDao.insert(reading);
 	}
 
 	public Reading update(Reading reading) throws IncompleteDataException {
