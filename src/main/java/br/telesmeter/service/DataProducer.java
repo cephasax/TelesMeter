@@ -1,4 +1,4 @@
-package br.telesmeter.tests;
+package br.telesmeter.service;
 
 import java.util.ArrayList;
 
@@ -6,14 +6,14 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import br.telesmeter.domain.AbstractData;
 import br.telesmeter.sheetdatareader.DataCapture;
-import br.telesmeter.utils.FixedBuffer;
+import br.telesmeter.utils.Buffer;
 
-public class Producer extends Thread{
-	private FixedBuffer<AbstractData> fixedBuffer;
+public class DataProducer extends Thread{
+	private Buffer<AbstractData> fixedBuffer;
 	private DataCapture dataCapture;
 	private String sourceFile; 
 	
-	public Producer(FixedBuffer<AbstractData> fb, DataCapture dc, String fn){
+	public DataProducer(Buffer<AbstractData> fb, DataCapture dc, String fn){
 		this.fixedBuffer = fb;
 		this.dataCapture = dc; 
 		this.sourceFile = fn;
