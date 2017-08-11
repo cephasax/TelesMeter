@@ -5,6 +5,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import br.telesmeter.exceptions.ClosedBufferException;
+
 public class Buffer<T> {
 	private int maxSize;
 	private boolean closed;
@@ -22,10 +24,13 @@ public class Buffer<T> {
 		list = new LinkedList<T>();
 	}
 	
-	public T consume() throws InterruptedException{
+	public T consume() throws ClosedBufferException, InterruptedException{
 		lock.lock();
 		try{
 			while(list.size()<=0){
+				if(closed){
+					throw new ClosedBufferException("Buffer is empty. time to stop consumer");
+				}
 				notEmpty.await();
 			}
 			T temp = list.removeLast();
@@ -45,7 +50,7 @@ public class Buffer<T> {
 			while(list.size()==maxSize){
 				notFull.await();
 			}
-			list.add(t);
+			list.addFirst(t);
 			notEmpty.signal();
 			return;
 		}
@@ -60,7 +65,10 @@ public class Buffer<T> {
 	}
 	
 	public void close(){
+		lock.lock();
 		closed = true;
+		notEmpty.signal();
+		lock.unlock();
 	}
 	
 	
