@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import br.telesmeter.business.ReadingService;
 import br.telesmeter.domain.AbstractData;
 import br.telesmeter.domain.Reading;
-import br.telesmeter.exceptions.DataAlreadyExistsException;
 import br.telesmeter.exceptions.IncompleteDataException;
 
 
