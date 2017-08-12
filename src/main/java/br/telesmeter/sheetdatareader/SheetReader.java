@@ -10,7 +10,7 @@ public interface SheetReader {
 		
 	public int getNumberOfNoEmptyColumns(Sheet sheet);
 	public int getNumberOfNoEmptyRows(Sheet sheet);
-	public ArrayList<AbstractData> readDataFromSheet(Sheet sheet, int startFromRow, int numberOfRowsToRead);
-	public Sheet getSheetFromSourceFile(String sourceFile, int sheetIndex);
+	public ArrayList<AbstractData> readDataFromSheet(SheetWindow sheet, int numberOfObjectsToRead);
+	public SheetWindow getSheetFromSourceFile(String sourceFile, int sheetIndex, int bufferSize);
 	
 }
