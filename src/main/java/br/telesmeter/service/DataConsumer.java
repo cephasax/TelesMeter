@@ -1,6 +1,7 @@
 package br.telesmeter.service;
 
 import br.telesmeter.domain.AbstractData;
+import br.telesmeter.exceptions.ClosedBufferException;
 import br.telesmeter.sheetdatawriter.DataWriter;
 import br.telesmeter.utils.Buffer;
 
@@ -14,14 +15,16 @@ public class DataConsumer extends Thread{
 	}
 	 
 	public void run(){
-		try {
-			AbstractData data;
-			while( !fixedBuffer.isClosed() ){
+		AbstractData data;
+		while( !fixedBuffer.isClosed() ){
+			try {
 				data = fixedBuffer.consume();
 				dataWriter.writeDataFromSheet(data);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ClosedBufferException e) {
+				break;
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 }
