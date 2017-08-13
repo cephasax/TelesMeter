@@ -1,19 +1,21 @@
 package br.telesmeter.sheetdatareader;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Sheet;
 
 import br.telesmeter.business.StationService;
 import br.telesmeter.domain.AbstractData;
 import br.telesmeter.domain.Reading;
 import br.telesmeter.domain.Station;
+import br.telesmeter.exceptions.ClosedBufferException;
 import br.telesmeter.exceptions.DataNotFoundException;
+import br.telesmeter.utils.Buffer;
 import br.telesmeter.utils.SheetUtils;
+import br.telesmeter.utils.Triple;
 
 public class ReadingDataCapture extends DataCapture {
 
@@ -26,68 +28,87 @@ public class ReadingDataCapture extends DataCapture {
 		this.stationService = new StationService();
 	}
 
-	public ArrayList<AbstractData> readDataFromSheet(Sheet sheet, int startFromRow, int numberOfRowsToRead) {
-		
+	public ArrayList<AbstractData> readDataFromSheet(SheetWindow sheet, int numberOfObjectsToRead) {
+		Buffer<Triple<String>> stringToObjectBuffer = sheet.getBuffer();
 		ArrayList<AbstractData> data = new ArrayList<AbstractData>();
-		
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		Double d = new Double(0.0);
 		Date date = new Date();
-		int limit = startFromRow + numberOfRowsToRead;
+		Triple<String> t = null;
 		
-		for(int i = startFromRow; i < limit; i++){
-			for(Cell cell: sheet.getRow(i)){
-				
-				String cellData = new String(sheetDataFormatter.formatCellValue(cell));
-				
-				//if first row
-				if(i == 0 ){
-					//if second column or later
-					if(cell.getColumnIndex() > 0){
-						// get respective Station on database
-						//put station on local collection to future Reading attribution 
-						Station s = new Station();
-						
-						try {
-							s = stationService.findByCodename(cellData);
-							stations.add(s);
-						} catch (DataNotFoundException e) {
-							e.printStackTrace();
-							s = null;
-							stations.add(s);
-						}
-					}
+		if( stringToObjectBuffer.isClosed() ){
+			return data;
+		}
+		
+		//Get the first line (that contains codename of stations) and mound a list of stations
+		//OBS: The list of stations does not increase the size of 'data' 
+		while( !stringToObjectBuffer.isClosed() ){
+			try {
+				t = stringToObjectBuffer.consume();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			} catch (ClosedBufferException e) {
+				break;
+			}
+			//Not the first line? so is not a station's codename
+			if(t.getRow()>0){
+				break;
+			}
+			else{
+				//Ignore the first cell (not used in Readings file)
+				if(t.getColumn()==0){
+					continue;
 				}
-				
-				//Rows after first row
-				else{
-				
-					// if Row is not empty
-					if (!cellData.equals("")) {
+				Station s = new Station();
 
-						// if first column
-						if (cell.getColumnIndex() == 0) {
-							date = cell.getDateCellValue();
-						}
-
-						// if cell with precipitation data
-						else {
-
-							try {
-								// Parse cell
-								d = new Double(SheetUtils.parseDecimal(cellData));
-
-							} catch (ParseException e) {
-								e.printStackTrace();
-							}
-
-							Reading reading = new Reading();
-							reading.setDate(date);
-							reading.setValue(d);
-							reading.setStation(stations.get(cell.getColumnIndex() - 1));
-							data.add(reading);
-						}
-					}
-				} 
+				try {
+					s = stationService.findByCodename(t.getData());
+					stations.add(s);
+				} catch (DataNotFoundException e) {
+					e.printStackTrace();
+					s = null;
+					stations.add(s);
+				}
+			}
+		}
+		
+		//Get the second row and forward, building the readings
+		while( !stringToObjectBuffer.isClosed() || data.size()!=numberOfObjectsToRead ){
+			//get date
+			if(t.getColumn()==0){
+				try {
+					date = format.parse(t.getData());
+					//System.out.println("data: '" + t.getData() + "' => " + date);
+				} catch (ParseException e) {
+					System.out.println("String: " + t.getData() );
+					e.printStackTrace();
+				}
+			}
+			else{ //get reading value and mount Reading
+				try {
+					d = new Double(SheetUtils.parseDecimal(t.getData()));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				Reading reading = new Reading();
+				reading.setDate(date);
+				reading.setValue(d);
+				reading.setStation(stations.get(t.getColumn()-1));
+				data.add(reading);
+			}
+			
+			//Hit the last reading on file or numberOfObjectsToRead? stop
+			if( stringToObjectBuffer.isClosed() || data.size()==numberOfObjectsToRead){
+				return data;
+			}
+			else{ // else, get a new reading and keep going
+				try {
+					t = stringToObjectBuffer.consume();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ClosedBufferException e) {
+					return data;
+				}
 			}
 		}
 		return data;
