@@ -27,7 +27,7 @@ public class StationDataCapture extends DataCapture {
 		}
 		
 		//Ignore first line of file (not used in stations file)
-		while( stringToObjectBuffer.isClosed() ){
+		while( !stringToObjectBuffer.isClosed() ){
 			try {
 				t = stringToObjectBuffer.consume();
 			} catch (InterruptedException e) {
