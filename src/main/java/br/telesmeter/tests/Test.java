@@ -10,6 +10,7 @@ import br.telesmeter.service.ReadingsLoaderService;
 import br.telesmeter.service.StationsLoaderService;
 
 public class Test {
+	
 	private static String menu = "<== MENU ==>\n"
 			+ "(1) - Inserir novas estações;\n"
 			+ "(2) - Inserir novas leituras;\n"
@@ -28,6 +29,7 @@ public class Test {
 			choice = r.nextInt();
 			switch(choice){
 				case 0:
+					System.out.println("By! :D");
 					break;
 				case 1:
 					insertStations();
@@ -90,7 +92,6 @@ public class Test {
 		System.out.print("Done.");
 		System.out.println("Made in " + ((endTime-startTime)/1000) +" seconds.");
 	}
-	
 
 	public static void countStations(){
 		StationService ss = new StationService();
@@ -101,7 +102,6 @@ public class Test {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	public static void countReadings(){
 		ReadingService rs = new ReadingService();
