@@ -30,6 +30,7 @@ import br.telesmeter.utils.Triple;
 public class SheetWindow extends Thread implements Runnable{
 	private Buffer<Triple<String>> buffer;
 	private OPCPackage xlsxPackage = null;
+	private boolean emptyRowFound = false; 
 	
 	private class MyHandler implements SheetContentsHandler {
 	     private int currentRow = -1;
@@ -39,9 +40,12 @@ public class SheetWindow extends Thread implements Runnable{
 	      * Code executed every time the windows reach a new row of the file.
 	      */
 	     public void startRow(int rowNum) {
+	    	 if(emptyRowFound){
+	    		 return;
+	    	 }
 	    	 if(rowNum!=currentRow+1){
-	    		 System.out.println("Blank line found: line " + (currentRow+1) + "\nExiting\n");
-	    		 System.exit(0);
+	    		System.out.println("SheetWindow => Empty row(s) found: " + (currentRow+1) + " to " + rowNum);
+	    		emptyRowFound = true;
 	    	 }
 	         currentRow = rowNum;
 	         currentCol = -1;
@@ -53,21 +57,22 @@ public class SheetWindow extends Thread implements Runnable{
 	     public void endRow(int rowNum) {}
 
 	     public void cell(String cellReference, String formattedValue, XSSFComment comment) {
+	    	 if(emptyRowFound){
+	    		 return;
+	    	 }
+	    	 
 	         // gracefully handle missing CellRef here in a similar way as XSSFCell does
 	         if(cellReference == null) {
 	             cellReference = new CellAddress(currentRow, currentCol).formatAsString();
 	         }
 	         currentCol++;
-	         //System.out.print("[" + cellReference + ": " + formattedValue + "] -> ");
-	         //System.out.println("(Row " + currentRow + ", col " + currentCol +")\n");
 	         
 	         // Did we jump some cell because it was empty?
 	         if((new CellReference(cellReference)).getCol() > currentCol){
-	        	 System.out.println("\nEmpty Cell found: line " + currentRow + ", col " + currentCol +"\nExiting.\n"); 
+	        	 System.out.println("SheetWindow => Empty Cell found: row " + currentRow + ", col " + currentCol +"\nExiting.\n"); 
 	        	 System.exit(0);
 	         }
 	         
-	         // Number or string?
 	         Triple<String> t = new Triple<String>();
 	         t.setColumn(currentCol);
 	         t.setRow(currentRow);
@@ -121,7 +126,6 @@ public class SheetWindow extends Thread implements Runnable{
 	         stream.close();
 	     }
 	     xlsxPackage.close();
-	     System.out.println("Closing buffer.");
 	     buffer.close();
 	}
 	 
@@ -134,8 +138,7 @@ public class SheetWindow extends Thread implements Runnable{
 	    InputSource sheetSource = new InputSource(sheetInputStream);
 	    try {
 	        XMLReader sheetParser = SAXHelper.newXMLReader();
-	        ContentHandler handler = new XSSFSheetXMLHandler(
-	              styles, null, strings, sheetHandler, formatter, false);
+	        ContentHandler handler = new XSSFSheetXMLHandler(styles, null, strings, sheetHandler, formatter, false);
 	        sheetParser.setContentHandler(handler);
 	        sheetParser.parse(sheetSource);
 	     } catch(ParserConfigurationException e) {
