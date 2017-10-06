@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="acpPanelER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" style="-fx-background-color: #E0EEEE;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="txtBoxNameFileER" layoutX="106.0" layoutY="104.0" onAction="#putFileName" promptText="Name file" />
+      <Button fx:id="butBackER" layoutX="237.0" layoutY="248.0" mnemonicParsing="false" onAction="#backPreviousScreen" text="Back to Summary" />
+      <Button fx:id="butSaveER" layoutX="359.0" layoutY="249.0" mnemonicParsing="false" onAction="#exportFile" text="Export" />
+      <SplitMenuButton fx:id="slpMenuTypeER" layoutX="274.0" layoutY="103.0" mnemonicParsing="false" onAction="#chooseTypeFile" text="Type">
+        <items>
+          <MenuItem fx:id="menuITxtER" mnemonicParsing="false" onAction="#saveAsTxt" text="TXT" />
+          <MenuItem fx:id="menuIPdfER" mnemonicParsing="false" onAction="#saveAsPdf" text="PDF" />
+            <MenuItem fx:id="menuICsvER" mnemonicParsing="false" onAction="#saveAsCsv" text="CSV" />
+            <MenuItem fx:id="menuIJsonER" mnemonicParsing="false" onAction="#saveAsJson" text="JSON" />
+        </items>
+      </SplitMenuButton>
+      <ImageView fx:id="imgGotaER" fitHeight="112.0" fitWidth="122.0" layoutX="-1.0" layoutY="185.0" opacity="0.13" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gotgc.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
